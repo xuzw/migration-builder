@@ -9,16 +9,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Migration {
 
-  private final MigrationType migrationType;
   private final List<Table> createdTables = new ArrayList<Table>();
   private final List<Index> createdIndexes = new ArrayList<Index>();
 
+  public Migration() {
 
-  private Serializer getSerializer() {
-    switch(this.migrationType) {
+  }
+
+
+  private Serializer getSerializer(Connection c) throws SQLException {
+    MigrationType migrationType = parseMigrationType(c.getMetaData().getDriverName());
+    switch(migrationType) {
       case POSTGRES:
         return new PostgresSerializer();
       default:
@@ -26,8 +31,11 @@ public class Migration {
     }
   }
 
-  public Migration(MigrationType migrationType) {
-    this.migrationType = migrationType;
+  private MigrationType parseMigrationType(String driverName) {
+    if(Objects.equals(driverName, "com.mysql.jdbc.Driver")) return MigrationType.MYSQL;
+    if(Objects.equals(driverName, "org.postgresql.Driver")) return MigrationType.POSTGRES;
+    if(Objects.equals(driverName, "org.h2.Driver")) return MigrationType.H2;
+    throw new RuntimeException("unrecognized connection type");
   }
 
   public Table createTable(String name) {
@@ -39,16 +47,14 @@ public class Migration {
   public void run(Connection connection) throws SQLException {
     Statement statement = connection.createStatement();
     try {
-      statement.execute(this.toSql());
+      Serializer s = getSerializer(connection);
+      String sql = s.serialize(this);
+      statement.execute(sql);
     } finally {
       statement.close();
     }
   }
 
-  public String toSql() {
-    Serializer s = getSerializer();
-    return s.serialize(this);
-  }
 
   public List<Table> getCreatedTables() {
     return createdTables;

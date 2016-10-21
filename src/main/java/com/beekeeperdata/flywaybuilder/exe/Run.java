@@ -13,11 +13,12 @@ class Run {
   public static void main(String[] args) throws SQLException {
 
     Connection c = getConnection();
-    Migration m = new Migration(MigrationType.H2);
+    Migration m = new Migration();
     Table t = m.createTable("users");
-    t.addColumn("first_name", C.STRING)
-      .addColumn("last_name", C.STRING)
-      .addColumn("email", C.STRING);
+    t.addBasics()
+            .addColumn("first_name", C.STRING)
+            .addColumn("last_name", C.STRING)
+            .addColumn("email", C.STRING);
 
     //m.createIndex("users", new ArrayList("email"));
 
