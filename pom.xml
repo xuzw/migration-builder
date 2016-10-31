@@ -4,26 +4,37 @@
   <groupId>com.beekeeperdata</groupId>
   <artifactId>migrationbuilder</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <name>Migration Builder</name>
-  <url>http://maven.apache.org</url>
+  <description>Migration Builder provides an easy to use Java DSL for building database migrations that work across all major database vendors. It works great for Java, Scala, and Kotlin projects.</description>
+  <url>http://github.com/beekeeperdata/migration-builder</url>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://github.com/beekeeperdata/migration-builder/LICENSE.txt</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Matthew Rathbone</name>
+      <email>matthew@beekeeperdata.com</email>
+      <organization>Beekeeper Labs Inc.</organization>
+      <organizationUrl>http://beekeeperdata.com</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:beekeeperdata/migration-builder.git</connection>
+    <developerConnection>scm:git:git@github.com:beekeeperdata/migration-builder.git</developerConnection>
+    <url>http://github.com/beekeeperdata/migration-builder</url>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-        <groupId>org.flywaydb</groupId>
-        <artifactId>flyway-core</artifactId>
-        <version>4.0.3</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
     <dependency>
       <groupId>org.apache.commons</groupId>
