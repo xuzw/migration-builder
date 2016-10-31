@@ -1,7 +1,4 @@
-package com.beekeeperdata.flywaybuilder;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.beekeeperdata.migrationbuilder;
 
 
 /**
@@ -10,6 +7,7 @@ import java.util.List;
 public abstract class Serializer {
 
     protected abstract String createTable(Table t);
+    protected abstract String createIndex(Index i);
     protected abstract String column(Column c);
     protected abstract String typeToString(C columnType);
     protected abstract String defaultValue(Column c);

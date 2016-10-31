@@ -1,4 +1,4 @@
-package com.beekeeperdata.flywaybuilder;
+package com.beekeeperdata.migrationbuilder;
 
 
 import java.util.ArrayList;
@@ -28,6 +28,16 @@ public class Table {
     result.defaultValue(defaultValue);
     this.createdColumns.add(result);
     return this;
+  }
+
+  public Table addPKColumn(String name, C type, boolean notNull, String defaultValue) {
+    this.addColumn(name, type, notNull, defaultValue);
+    this.setPrimaryKey(name);
+    return this;
+  }
+
+  public Table addPKColumn(String name, C type) {
+    return this.addPKColumn(name, type, false, null);
   }
 
   public Table addBasics() {

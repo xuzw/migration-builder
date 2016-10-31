@@ -1,9 +1,8 @@
-package com.beekeeperdata.flywaybuilder.exe;
+package com.beekeeperdata.migrationbuilder.exe;
 
-import com.beekeeperdata.flywaybuilder.C;
-import com.beekeeperdata.flywaybuilder.Migration;
-import com.beekeeperdata.flywaybuilder.MigrationType;
-import com.beekeeperdata.flywaybuilder.Table;
+import com.beekeeperdata.migrationbuilder.C;
+import com.beekeeperdata.migrationbuilder.Migration;
+import com.beekeeperdata.migrationbuilder.Table;
 
 
 import java.sql.Connection;

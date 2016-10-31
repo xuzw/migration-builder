@@ -1,4 +1,4 @@
-package com.beekeeperdata.flywaybuilder;
+package com.beekeeperdata.migrationbuilder;
 
 
 public class Column {

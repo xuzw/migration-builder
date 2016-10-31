@@ -1,4 +1,4 @@
-package com.beekeeperdata.flywaybuilder;
+package com.beekeeperdata.migrationbuilder;
 
 /**
  * Created by rathboma on 10/19/16.

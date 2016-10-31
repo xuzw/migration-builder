@@ -1,6 +1,7 @@
-package com.beekeeperdata.flywaybuilder.serializers;
+package com.beekeeperdata.migrationbuilder.serializers;
 
-import com.beekeeperdata.flywaybuilder.*;
+import com.beekeeperdata.migrationbuilder.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public abstract class SQLSerializer extends Serializer {
 
         }
         String innerTableSQL = "";
-        String columns = String.join(",", serializedColumns);
+        String columns = StringUtils.join(serializedColumns, ",");
         innerTableSQL += columns;
         String primaryKey = "";
         if(t.getPrimaryKey() != null) {
@@ -29,6 +30,15 @@ public abstract class SQLSerializer extends Serializer {
 
     }
 
+    @Override
+    public String createIndex(Index i) {
+        String columnsString = StringUtils.join(i.getColumns(), ", ");
+        String template = "CREATE INDEX %s ON %s(%s);";
+        String result = String.format(template, i.getName(), i.getTable(), columnsString);
+
+        return result;
+    }
+
 
     @Override
     protected String typeToString(C columnType) {
@@ -38,7 +48,7 @@ public abstract class SQLSerializer extends Serializer {
             case DATETIME:
                 return "DATETIME";
             case AUTOINC:
-                return "BIGINT AUTO_INCREMENT";
+                return "BIGINT NOT NULL AUTO_INCREMENT";
             case INT:
             case INTEGER:
                 return "INTEGER";
@@ -59,7 +69,8 @@ public abstract class SQLSerializer extends Serializer {
     @Override
     protected String column(Column c) {
         String result = String.format("%s %s", c.getName(), this.typeToString(c.getColumnType()));
-        if(c.getNotNull()) {
+        if(c.getNotNull() && c.getColumnType() != C.AUTOINC) {
+            // dont want to add this to AUTOINC columns, as it comes as standard.
             result += " NOT NULL";
         }
         if(c.hasDefaultValue()) {
@@ -90,6 +101,11 @@ public abstract class SQLSerializer extends Serializer {
         for (Table t: migration.getCreatedTables()) {
             result += this.createTable(t);
         }
+
+        for(Index i: migration.getCreatedIndexes()) {
+            result += this.createIndex(i);
+        }
+
         return result;
     }
 }

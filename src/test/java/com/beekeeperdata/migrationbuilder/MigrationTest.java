@@ -1,7 +1,6 @@
-package com.beekeeperdata.flywaybuilder;
+package com.beekeeperdata.migrationbuilder;
 
 import junit.framework.TestCase;
-import org.junit.Assert;
 
 
 /**
