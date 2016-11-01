@@ -11,6 +11,7 @@ public abstract class Serializer {
     protected abstract String column(Column c);
     protected abstract String typeToString(C columnType);
     protected abstract String defaultValue(Column c);
+    protected abstract String addColumn(String table, Column c);
 
     public abstract String serialize(Migration migration);
 }
