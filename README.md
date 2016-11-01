@@ -32,3 +32,23 @@ This generates the below SQL, notice the platform specific differences are accou
 - PostgreSQL
 - MySQL
 - H2
+
+
+## Getting Started
+
+### Installation
+
+Include the library as a dependency in your build tool of choice:
+TBD
+
+### Basic Usage with Flyway
+
+TBD
+
+
+## Deploying (Developers Only)
+
+- make a version branch
+- update the maven version to the desired version
+- deploy snapshots with `mvn clean deploy`
+- deploy releases with `mvn clean deploy -P release` (make sure to update the version first)

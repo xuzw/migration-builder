@@ -96,10 +96,22 @@ public abstract class SQLSerializer extends Serializer {
     }
 
     @Override
+    protected String addColumn(String table, Column column) {
+        return String.format("ALTER TABLE %s ADD %s;", table, this.column(column));
+    }
+
+    @Override
     public String serialize(Migration migration) {
         String result = "";
         for (Table t: migration.getCreatedTables()) {
             result += this.createTable(t);
+        }
+
+        for(String t: migration.getAddedColumns().keySet()) {
+            List<Column> columns = migration.getAddedColumns().get(t);
+            for(Column c: columns){
+                result += this.addColumn(t, c);
+            }
         }
 
         for(Index i: migration.getCreatedIndexes()) {

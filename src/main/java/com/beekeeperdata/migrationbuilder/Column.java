@@ -9,10 +9,19 @@ public class Column {
   private boolean notNull = false;
   private boolean defaultCurrentTimestamp;
 
-  public Column(String name, C t) {
+
+  public Column(String name, C type, boolean notNull, String defaultValue) {
     this.name = name;
-    this.columnType = t;
+    this.columnType = type;
+    this.notNull = notNull;
+    this.defaultValue = defaultValue;
   }
+
+
+  public Column(String name, C t) {
+    this(name, t, false, null);
+  }
+
 
   public Column defaultValue(String defaultValue) {
     this.defaultValue = defaultValue;

@@ -48,6 +48,15 @@ public class H2SerializerTest extends TestCase {
         Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id));", result);
     }
 
+    public void testAddColumn() throws Exception {
+        Migration h2 = new Migration();
+        h2.addColumn("users", "first_name", C.STRING)
+                .addColumn("users", "last_name", C.STRING);
+        String result = this.serializer.serialize(h2);
+        String e = "ALTER TABLE users ADD first_name VARCHAR(255);ALTER TABLE users ADD last_name VARCHAR(255);";
+        Assert.assertEquals(e, result);
+    }
+
 
 
 
