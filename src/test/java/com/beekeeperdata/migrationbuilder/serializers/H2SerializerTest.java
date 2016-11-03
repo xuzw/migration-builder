@@ -3,6 +3,7 @@ package com.beekeeperdata.migrationbuilder.serializers;
 import com.beekeeperdata.migrationbuilder.C;
 import com.beekeeperdata.migrationbuilder.Migration;
 import com.beekeeperdata.migrationbuilder.Serializer;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
@@ -55,6 +56,12 @@ public class H2SerializerTest extends TestCase {
         String result = this.serializer.serialize(h2);
         String e = "ALTER TABLE users ADD first_name VARCHAR(255);ALTER TABLE users ADD last_name VARCHAR(255);";
         Assert.assertEquals(e, result);
+    }
+
+    public void testDropTable() throws Exception {
+        Migration h2 = new Migration().dropTable("foo");
+        String expected = "DROP TABLE foo;";
+        Assert.assertEquals(expected, serializer.serialize(h2));
     }
 
 

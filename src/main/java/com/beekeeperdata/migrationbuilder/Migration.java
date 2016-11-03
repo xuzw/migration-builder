@@ -18,8 +18,9 @@ public class Migration {
   private final List<Table> createdTables = new ArrayList<Table>();
   private final List<Index> createdIndexes = new ArrayList<Index>();
     private final Map<String,List<Column>> addedColumns = new HashMap<String, List<Column>>();
+    private List<String> droppedTables = new ArrayList<String>();
 
-  public Migration() {
+    public Migration() {
 
   }
 
@@ -47,6 +48,11 @@ public class Migration {
     Table table = new Table(name);
     this.createdTables.add(table);
     return table;
+  }
+
+  public Migration dropTable(String name) {
+      this.droppedTables.add(name);
+      return this;
   }
 
   public Index createIndex(String table, String... columns) {
@@ -93,7 +99,11 @@ public class Migration {
       return this.addedColumns;
   }
 
-  //public Table updateTable(String name);
+    public List<String> getDroppedTables() {
+        return droppedTables;
+    }
+
+    //public Table updateTable(String name);
   //public Index createIndex(name);
 
 }
