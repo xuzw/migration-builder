@@ -7,6 +7,9 @@ package com.beekeeperdata.migrationbuilder;
 public abstract class Serializer {
 
     protected abstract String createTable(Table t);
+
+    protected abstract String foreignKey(ForeignKey fKey);
+
     protected abstract String createIndex(Index i);
     protected abstract String column(Column c);
     protected abstract String typeToString(C columnType);

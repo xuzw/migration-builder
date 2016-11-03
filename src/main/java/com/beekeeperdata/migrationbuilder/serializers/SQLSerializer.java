@@ -13,21 +13,30 @@ public abstract class SQLSerializer extends Serializer {
     @Override
     public String createTable(Table t) {
         List<String> serializedColumns = new ArrayList<String>();
+        List<String> results = new ArrayList<String>();
         for (Column column : t.getCreatedColumns()) {
             serializedColumns.add(this.column(column));
 
         }
-        String innerTableSQL = "";
-        String columns = StringUtils.join(serializedColumns, ",");
-        innerTableSQL += columns;
-        String primaryKey = "";
+        results.addAll(serializedColumns);
+
         if(t.getPrimaryKey() != null) {
-            primaryKey = String.format("PRIMARY KEY(%s)", t.getPrimaryKey());
-            innerTableSQL += ", " + primaryKey;
+            String primaryKey = String.format("PRIMARY KEY(%s)", t.getPrimaryKey());
+            results.add(primaryKey);
         }
 
-        return String.format("CREATE TABLE %s(%s);", t.getName(), innerTableSQL);
+        for(ForeignKey fKey: t.getForeignKeys()) {
+            results.add(foreignKey(fKey));
+        }
+        String resultString = StringUtils.join(results, ",");
+        return String.format("CREATE TABLE %s(%s);", t.getName(), resultString);
 
+    }
+
+    @Override
+    protected String foreignKey(ForeignKey fKey) {
+        String template = "FOREIGN KEY %s REFERENCES %s(%s)";
+        return String.format(template, fKey.getColumn(), fKey.getForeignTable(), fKey.getForeignColumn());
     }
 
     @Override

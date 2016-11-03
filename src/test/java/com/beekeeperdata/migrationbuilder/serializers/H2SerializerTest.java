@@ -30,7 +30,7 @@ public class H2SerializerTest extends TestCase {
                 .addColumn("name", C.STRING);
 
         String result = this.serializer.serialize(h2);
-        Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT,created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,name VARCHAR(255), PRIMARY KEY(id));",
+        Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT,created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,name VARCHAR(255),PRIMARY KEY(id));",
                 result);
     }
 
@@ -45,7 +45,7 @@ public class H2SerializerTest extends TestCase {
         Migration h2 = new Migration();
         h2.createTable("test").addPKColumn("id", C.AUTOINC);
         String result = this.serializer.serialize(h2);
-        Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY(id));", result);
+        Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT,PRIMARY KEY(id));", result);
     }
 
     public void testAddColumn() throws Exception {
@@ -55,6 +55,17 @@ public class H2SerializerTest extends TestCase {
         String result = this.serializer.serialize(h2);
         String e = "ALTER TABLE users ADD first_name VARCHAR(255);ALTER TABLE users ADD last_name VARCHAR(255);";
         Assert.assertEquals(e, result);
+    }
+
+    public void testForeignKey() throws Exception {
+        Migration h2 = new Migration();
+        h2.createTable("posts")
+                .addColumn("user_id", C.BIGINT)
+                .addForeignKey("user_id", "users", "id");
+
+        String result = serializer.serialize(h2);
+        String expected = "CREATE TABLE posts(user_id BIGINT,FOREIGN KEY user_id REFERENCES users(id));";
+        Assert.assertEquals(expected, result);
     }
 
     public void testDropTable() throws Exception {

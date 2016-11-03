@@ -11,6 +11,7 @@ public class Table {
   private String primaryKey = null;
 
   private String name;
+  private List<ForeignKey> foreignKeys = new ArrayList<ForeignKey>();
 
   public Table(String name) {
     this.name = name;
@@ -38,6 +39,12 @@ public class Table {
 
   public Table addPKColumn(String name, C type) {
     return this.addPKColumn(name, type, false, null);
+  }
+
+  public Table addForeignKey(String column, String fTable, String fKey) {
+    this.foreignKeys.add(new ForeignKey(column, fTable, fKey));
+
+    return this;
   }
 
   public Table addBasics() {
@@ -72,5 +79,9 @@ public class Table {
 
   public String getPrimaryKey() {
     return primaryKey;
+  }
+
+  public List<ForeignKey> getForeignKeys() {
+    return foreignKeys;
   }
 }
