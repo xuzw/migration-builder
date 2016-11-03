@@ -39,6 +39,11 @@ public abstract class SQLSerializer extends Serializer {
         return result;
     }
 
+    @Override
+    public String droppedTable(String table) {
+        return String.format("DROP TABLE %s;", table);
+    }
+
 
     @Override
     protected String typeToString(C columnType) {
@@ -112,6 +117,10 @@ public abstract class SQLSerializer extends Serializer {
             for(Column c: columns){
                 result += this.addColumn(t, c);
             }
+        }
+
+        for(String t: migration.getDroppedTables()) {
+            result += this.droppedTable(t);
         }
 
         for(Index i: migration.getCreatedIndexes()) {

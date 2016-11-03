@@ -14,6 +14,8 @@ public abstract class Serializer {
     protected abstract String addColumn(String table, Column c);
 
     public abstract String serialize(Migration migration);
+
+    public abstract String droppedTable(String t);
 }
 
 
