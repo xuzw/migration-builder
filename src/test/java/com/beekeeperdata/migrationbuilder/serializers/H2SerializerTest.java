@@ -3,7 +3,6 @@ package com.beekeeperdata.migrationbuilder.serializers;
 import com.beekeeperdata.migrationbuilder.C;
 import com.beekeeperdata.migrationbuilder.Migration;
 import com.beekeeperdata.migrationbuilder.Serializer;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
