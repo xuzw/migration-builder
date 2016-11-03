@@ -28,7 +28,7 @@ public class PostgresSerializerTest extends TestCase {
                 .addColumn("name", C.STRING);
         Serializer s = new PostgresSerializer();
         String result = s.serialize(m);
-        Assert.assertEquals("CREATE TABLE test(id SERIAL,name VARCHAR(255), PRIMARY KEY(id));", result);
+        Assert.assertEquals("CREATE TABLE test(id SERIAL,name VARCHAR(255),PRIMARY KEY(id));", result);
 
     }
 }
