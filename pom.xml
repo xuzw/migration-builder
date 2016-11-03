@@ -4,7 +4,7 @@
     <groupId>com.beekeeperdata</groupId>
     <artifactId>migrationbuilder</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
     <name>Migration Builder</name>
     <description>Migration Builder provides an easy to use Java DSL for building database migrations that work across all major database vendors. It works great for Java, Scala, and Kotlin projects.</description>
     <url>http://github.com/beekeeperdata/migration-builder</url>
