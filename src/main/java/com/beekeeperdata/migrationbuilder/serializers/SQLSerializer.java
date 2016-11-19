@@ -35,7 +35,7 @@ public abstract class SQLSerializer extends Serializer {
 
     @Override
     protected String foreignKey(ForeignKey fKey) {
-        String template = "FOREIGN KEY %s REFERENCES %s(%s)";
+        String template = "FOREIGN KEY(%s) REFERENCES %s(%s)";
         return String.format(template, fKey.getColumn(), fKey.getForeignTable(), fKey.getForeignColumn());
     }
 
