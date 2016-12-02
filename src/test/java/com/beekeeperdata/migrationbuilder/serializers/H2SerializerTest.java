@@ -83,7 +83,7 @@ public class H2SerializerTest extends TestCase {
                 .addForeignKey("user_id", "users", "id");
 
         String result = serializer.serialize(h2);
-        String expected = "CREATE TABLE posts(user_id BIGINT,FOREIGN KEY(user_id) REFERENCES users(id));";
+        String expected = "CREATE TABLE posts(user_id BIGINT,CONSTRAINT FK_posts_user_id FOREIGN KEY(user_id) REFERENCES users(id) );";
         Assert.assertEquals(expected, result);
     }
 
