@@ -34,6 +34,17 @@ public class H2SerializerTest extends TestCase {
                 result);
     }
 
+    public void testBooleanColumn() throws Exception {
+        Migration h2 = new Migration();
+        h2.createTable("test")
+                .addBasics()
+                .addColumn("is_awesome", C.BOOLEAN, true, "FALSE");
+
+        String result = this.serializer.serialize(h2);
+        Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT,created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,is_awesome BOOLEAN NOT NULL DEFAULT FALSE,PRIMARY KEY(id));",
+                result);
+    }
+
     public void testCreateIndex() throws Exception {
         Migration h2 = new Migration();
         h2.createIndex("users", "first_name");
@@ -57,6 +68,14 @@ public class H2SerializerTest extends TestCase {
         Assert.assertEquals(e, result);
     }
 
+    public void testAddBooleanColumn() throws Exception {
+        Migration h2 = new Migration();
+        h2.addColumn("users", "is_awesome", C.BOOLEAN);
+        String result = this.serializer.serialize(h2);
+        String e = "ALTER TABLE users ADD is_awesome BOOLEAN;";
+        Assert.assertEquals(e, result);
+    }
+
     public void testForeignKey() throws Exception {
         Migration h2 = new Migration();
         h2.createTable("posts")
@@ -64,7 +83,7 @@ public class H2SerializerTest extends TestCase {
                 .addForeignKey("user_id", "users", "id");
 
         String result = serializer.serialize(h2);
-        String expected = "CREATE TABLE posts(user_id BIGINT,FOREIGN KEY(user_id) REFERENCES users(id));";
+        String expected = "CREATE TABLE posts(user_id BIGINT,CONSTRAINT FK_posts_user_id FOREIGN KEY(user_id) REFERENCES users(id) );";
         Assert.assertEquals(expected, result);
     }
 

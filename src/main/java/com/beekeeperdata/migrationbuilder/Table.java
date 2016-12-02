@@ -41,9 +41,8 @@ public class Table {
     return this.addPKColumn(name, type, false, null);
   }
 
-  public Table addForeignKey(String column, String fTable, String fKey) {
-    this.foreignKeys.add(new ForeignKey(column, fTable, fKey));
-
+  public Table addForeignKey(String column, String fTable, String fKey, FK... options) {
+    this.foreignKeys.add(new ForeignKey(this.getName(), column, fTable, fKey, options));
     return this;
   }
 

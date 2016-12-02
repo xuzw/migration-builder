@@ -2,6 +2,7 @@ package com.beekeeperdata.migrationbuilder;
 
 
 import com.beekeeperdata.migrationbuilder.serializers.H2Serializer;
+import com.beekeeperdata.migrationbuilder.serializers.MySqlSerializer;
 import com.beekeeperdata.migrationbuilder.serializers.PostgresSerializer;
 
 import java.sql.Connection;
@@ -18,7 +19,18 @@ public class Migration {
   private final List<Table> createdTables = new ArrayList<Table>();
   private final List<Index> createdIndexes = new ArrayList<Index>();
     private final Map<String,List<Column>> addedColumns = new HashMap<String, List<Column>>();
+    private List<ForeignKey> addedFKs = new ArrayList<ForeignKey>();
     private List<String> droppedTables = new ArrayList<String>();
+
+    public List<ForeignKey> getAddedFKs() {
+        return addedFKs;
+    }
+
+    public List<ForeignKey> getRemovedFKs() {
+        return removedFKs;
+    }
+
+    private List<ForeignKey> removedFKs = new ArrayList<ForeignKey>();
 
     public Migration() {
 
@@ -31,6 +43,7 @@ public class Migration {
       case POSTGRES:
         return new PostgresSerializer();
       case MYSQL:
+          return new MySqlSerializer();
       default:
         return new H2Serializer();
     }
@@ -72,6 +85,17 @@ public class Migration {
 
   public Migration addColumn(String table, String name, C type) {
       return this.addColumn(table, name, type, false, null);
+  }
+
+  public Migration addForeignKey(String table, String column, String foreignTable, String foreignColumn, FK... options) {
+
+      this.addedFKs.add(new ForeignKey(table, column, foreignTable, foreignColumn, options));
+      return this;
+  }
+
+  public Migration removeForeignKey(String table, String column) {
+      this.removedFKs.add(new ForeignKey(table, column, null, null));
+      return this;
   }
 
   public void run(Connection connection) throws SQLException {
