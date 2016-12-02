@@ -34,6 +34,17 @@ public class H2SerializerTest extends TestCase {
                 result);
     }
 
+    public void testBooleanColumn() throws Exception {
+        Migration h2 = new Migration();
+        h2.createTable("test")
+                .addBasics()
+                .addColumn("is_awesome", C.BOOLEAN, true, "FALSE");
+
+        String result = this.serializer.serialize(h2);
+        Assert.assertEquals("CREATE TABLE test(id BIGINT NOT NULL AUTO_INCREMENT,created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,is_awesome BOOLEAN NOT NULL DEFAULT FALSE,PRIMARY KEY(id));",
+                result);
+    }
+
     public void testCreateIndex() throws Exception {
         Migration h2 = new Migration();
         h2.createIndex("users", "first_name");
@@ -54,6 +65,14 @@ public class H2SerializerTest extends TestCase {
                 .addColumn("users", "last_name", C.STRING);
         String result = this.serializer.serialize(h2);
         String e = "ALTER TABLE users ADD first_name VARCHAR(255);ALTER TABLE users ADD last_name VARCHAR(255);";
+        Assert.assertEquals(e, result);
+    }
+
+    public void testAddBooleanColumn() throws Exception {
+        Migration h2 = new Migration();
+        h2.addColumn("users", "is_awesome", C.BOOLEAN);
+        String result = this.serializer.serialize(h2);
+        String e = "ALTER TABLE users ADD is_awesome BOOLEAN;";
         Assert.assertEquals(e, result);
     }
 

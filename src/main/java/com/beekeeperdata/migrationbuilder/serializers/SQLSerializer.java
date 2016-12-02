@@ -74,6 +74,8 @@ public abstract class SQLSerializer extends Serializer {
                 return "BIGINT";
             case TEXT:
                 return "TEXT";
+            case BOOLEAN:
+                return "BOOLEAN";
             default:
                 throw new RuntimeException("Not implemented");
         }
