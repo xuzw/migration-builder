@@ -35,9 +35,23 @@ public abstract class SQLSerializer extends Serializer {
 
     @Override
     protected String foreignKey(ForeignKey fKey) {
-        String template = "FOREIGN KEY(%s) REFERENCES %s(%s)";
-        return String.format(template, fKey.getColumn(), fKey.getForeignTable(), fKey.getForeignColumn());
+        String template = "CONSTRAINT %s FOREIGN KEY(%s) REFERENCES %s(%s) %s";
+        return String.format(template, fKey.getConstraintName(), fKey.getColumn(), fKey.getForeignTable(), fKey.getForeignColumn(), fkOptions(fKey.getOptions()));
     }
+
+    @Override
+    protected String fkOptions(FK[] options) {
+        List<String> results = new ArrayList<String>();
+        for (FK option : options) {
+            switch (option) {
+                case CASCADEDELETE:
+                    results.add("ON CASCADE DELETE");
+            }
+        }
+        return StringUtils.join(results, " ");
+    }
+
+
 
     @Override
     public String createIndex(Index i) {
@@ -117,6 +131,17 @@ public abstract class SQLSerializer extends Serializer {
     }
 
     @Override
+    protected String addFK(ForeignKey key) {
+        return String.format("ALTER TABLE %s ADD %s;", key.getTable(), this.foreignKey(key));
+    }
+
+    @Override
+    protected String dropFK(ForeignKey key) {
+        // different for mysql (of course)
+        return String.format("ALTER TABLE %s DROP CONSTRAINT %s;", key.getTable(), key.getConstraintName());
+    }
+
+    @Override
     public String serialize(Migration migration) {
         String result = "";
         for (Table t: migration.getCreatedTables()) {
@@ -128,6 +153,14 @@ public abstract class SQLSerializer extends Serializer {
             for(Column c: columns){
                 result += this.addColumn(t, c);
             }
+        }
+
+        for (ForeignKey foreignKey : migration.getAddedFKs()) {
+            result += this.addFK(foreignKey);
+        }
+
+        for (ForeignKey foreignKey : migration.getRemovedFKs()) {
+            result += this.dropFK(foreignKey);
         }
 
         for(String t: migration.getDroppedTables()) {
