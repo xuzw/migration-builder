@@ -81,10 +81,21 @@ Migration Builder is available through Maven Central. https://mvnrepository.com/
 Group Name: com.beekeeperdata
 Artifact Name: migrationbuilder
 ```
-
 ### Using Migration Builder with Flyway
 
 TBD
+
+### Who Should use Migration Builder?
+
+MB is perfect for those of you building Java, Scala, or Kotlin web apps. Most tables and indexes in this situation are fairly simple and can be easily covered by MB. Using MB doesn't stop you from doing something more complicated in 'proper SQL', so it's a great addition to your toolbelt either way.
+
+### Benefits of using Migration Builder
+
+With Flyway you write migrations in SQL. That means that to support multiple databases you need to rewrite all of your migrations for each specific database. This is tedious, error prone, and a maintenance nightmare.
+
+Migration builder allows you to write migrations ONCE, in Java, and have them run everywhere.
+
+Even with a small team, MB migrations significantly reduce the overhead of writing migrations and iterating on database tables.
 
 
 ## Developer Zone
