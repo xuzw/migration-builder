@@ -112,6 +112,58 @@ I also recommend implementing the Flyway `MigrationChecksumProvider` to uniquely
 override def getChecksum = (new DateTime(2017, 01, 01, 01, 01).getMillis / 1000).toInt
 ```
 
+
+## Feature Guide
+
+Migration Builder is a work in progress. It currently supports a useful subset of operations. You can see all of the top-level actions you can take in [Migration.java](https://github.com/beekeeperdata/migration-builder/blob/master/src/main/java/com/beekeeperdata/migrationbuilder/Migration.java). It should be fairly simple to follow.
+
+All examples below are in Java, but it pains me to not be writing Scala.
+
+### Creating Tables
+
+```java
+
+Migration m = new Migration();
+
+m.createTable("users")
+  .addBasics() // this adds id, created_at, and updated_at columns
+  .addColumn("name", C.STRING)
+  .addColumn("email", C.STRING, true, null)
+  .addColumn("client_id", C.BIGINT)
+  .addForeignKey("client_id", "clients", "id");
+ 
+```
+
+### Adding Columns
+
+```java
+Migration m = new Migration();
+
+m.addColumn("users", "last_name", C.STRING);
+
+```
+
+### Creating Indexes
+
+```java
+
+// will automatically name the index something sensible
+
+Migration m = new Migration();
+m.createIndex("users", "email");
+m.createIndex("users", "name", "last_name")
+
+```
+
+### Dropping Tables
+
+```java
+Migration m = new Migration();
+
+m.dropTable("users");
+
+```
+
 ## Who Should use Migration Builder?
 
 MB is perfect for those of you building Java, Scala, or Kotlin web apps. Most tables and indexes in this situation are fairly simple and can be easily covered by MB. Using MB doesn't stop you from doing something more complicated in 'proper SQL', so it's a great addition to your toolbelt either way.
