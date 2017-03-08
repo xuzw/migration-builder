@@ -19,9 +19,9 @@ Migration m = new Migration();
 
 m.createTable('example')
   .addPKColumn('id')
-  .addColumn('name', C.String)
-  .addColumn('email', C.String, true)
-  .addColumn('birthday', C.Date)
+  .addColumn('name', C.STRING)
+  .addColumn('email', C.STRING, true)
+  .addColumn('birthday', C.DATE)
   .addColumn('notes', C.TEXT)
 
  m.addIndex('example', 'email')
@@ -81,11 +81,38 @@ Migration Builder is available through Maven Central. https://mvnrepository.com/
 Group Name: com.beekeeperdata
 Artifact Name: migrationbuilder
 ```
-### Using Migration Builder with Flyway
+### Integrating with Flyway
 
-TBD
+The easiest way to integrate with Flyway it so use a standard [Flyway Java migration](https://flywaydb.org/documentation/migration/java), but instead of typing some raw SQL, just use migration builder to make a migration instead, then pass it the connection object to run it.
 
-### Who Should use Migration Builder?
+Here's the example copy-pasted from the Flyway docs, but with Migration Builder used instead of raw SQL
+
+```java
+/**
+ * Example of a Java-based migration.
+ */
+public class V1_2__Create_User implements JdbcMigration {
+    public void migrate(Connection connection) throws Exception {
+        Migration m = new Migration()
+        m.createTable("users")
+          .addBasics() // adds id, created_at, updated_at columns
+          .addColumn("name", C.STRING)
+          .addColumn("email", C.STRING)
+        m.run(connection)
+    }
+}
+
+
+```
+
+I also recommend implementing the Flyway `MigrationChecksumProvider` to uniquely identify each migration. That way Flyway can detect if you have already run a migration or not. I find a simple way to do this is to provide a date value that represents when you added the file, although you do have to remember to update this value if you change your migration:
+
+```scala
+// this is in scala, import org.joda.time.DateTime
+override def getChecksum = (new DateTime(2017, 01, 01, 01, 01).getMillis / 1000).toInt
+```
+
+## Who Should use Migration Builder?
 
 MB is perfect for those of you building Java, Scala, or Kotlin web apps. Most tables and indexes in this situation are fairly simple and can be easily covered by MB. Using MB doesn't stop you from doing something more complicated in 'proper SQL', so it's a great addition to your toolbelt either way.
 
