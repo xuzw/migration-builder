@@ -1,0 +1,17 @@
+com/beekeeperdata/migrationbuilder/C.class
+com/beekeeperdata/migrationbuilder/MigrationType.class
+com/beekeeperdata/migrationbuilder/FK.class
+com/beekeeperdata/migrationbuilder/Column.class
+com/beekeeperdata/migrationbuilder/Migration.class
+com/beekeeperdata/migrationbuilder/Migration$1.class
+com/beekeeperdata/migrationbuilder/serializers/PostgresSerializer$1.class
+com/beekeeperdata/migrationbuilder/serializers/H2Serializer.class
+com/beekeeperdata/migrationbuilder/serializers/MySqlSerializer.class
+com/beekeeperdata/migrationbuilder/Index.class
+com/beekeeperdata/migrationbuilder/serializers/SQLSerializer$1.class
+com/beekeeperdata/migrationbuilder/exe/Run.class
+com/beekeeperdata/migrationbuilder/ForeignKey.class
+com/beekeeperdata/migrationbuilder/serializers/PostgresSerializer.class
+com/beekeeperdata/migrationbuilder/serializers/SQLSerializer.class
+com/beekeeperdata/migrationbuilder/Serializer.class
+com/beekeeperdata/migrationbuilder/Table.class

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.beekeeperdata</groupId>
+  <artifactId>migrationbuilder</artifactId>
+  <versioning>
+    <versions>
+      <version>0.1.7-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170503100743</lastUpdated>
+  </versioning>
+</metadata>
