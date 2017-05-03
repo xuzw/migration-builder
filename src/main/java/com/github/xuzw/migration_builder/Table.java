@@ -1,4 +1,4 @@
-package com.beekeeperdata.migrationbuilder;
+package com.github.xuzw.migration_builder;
 
 
 import java.util.ArrayList;

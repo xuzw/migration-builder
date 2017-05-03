@@ -1,12 +1,11 @@
-package com.beekeeperdata.migrationbuilder.exe;
-
-import com.beekeeperdata.migrationbuilder.C;
-import com.beekeeperdata.migrationbuilder.Migration;
-import com.beekeeperdata.migrationbuilder.Table;
-
+package com.github.xuzw.migration_builder.exe;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import com.github.xuzw.migration_builder.C;
+import com.github.xuzw.migration_builder.Migration;
+import com.github.xuzw.migration_builder.Table;
 
 class Run {
   public static void main(String[] args) throws SQLException {

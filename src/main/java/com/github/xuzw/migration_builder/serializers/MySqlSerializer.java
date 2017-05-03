@@ -1,6 +1,6 @@
-package com.beekeeperdata.migrationbuilder.serializers;
+package com.github.xuzw.migration_builder.serializers;
 
-import com.beekeeperdata.migrationbuilder.ForeignKey;
+import com.github.xuzw.migration_builder.ForeignKey;
 
 /**
  * Created by rathboma on 11/30/16.

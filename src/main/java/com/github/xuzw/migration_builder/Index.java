@@ -1,4 +1,4 @@
-package com.beekeeperdata.migrationbuilder;
+package com.github.xuzw.migration_builder;
 
 import org.apache.commons.lang3.StringUtils;
 

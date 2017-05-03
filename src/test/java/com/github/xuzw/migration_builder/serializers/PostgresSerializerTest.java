@@ -1,11 +1,13 @@
-package com.beekeeperdata.migrationbuilder.serializers;
+package com.github.xuzw.migration_builder.serializers;
 
-import com.beekeeperdata.migrationbuilder.C;
-import com.beekeeperdata.migrationbuilder.FK;
-import com.beekeeperdata.migrationbuilder.Migration;
-import com.beekeeperdata.migrationbuilder.Serializer;
 import junit.framework.TestCase;
 import org.junit.Assert;
+
+import com.github.xuzw.migration_builder.C;
+import com.github.xuzw.migration_builder.FK;
+import com.github.xuzw.migration_builder.Migration;
+import com.github.xuzw.migration_builder.Serializer;
+import com.github.xuzw.migration_builder.serializers.PostgresSerializer;
 
 /**
  * Created by rathboma on 10/20/16.

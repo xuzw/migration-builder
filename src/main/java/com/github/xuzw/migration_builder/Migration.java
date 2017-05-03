@@ -1,9 +1,5 @@
-package com.beekeeperdata.migrationbuilder;
+package com.github.xuzw.migration_builder;
 
-
-import com.beekeeperdata.migrationbuilder.serializers.H2Serializer;
-import com.beekeeperdata.migrationbuilder.serializers.MySqlSerializer;
-import com.beekeeperdata.migrationbuilder.serializers.PostgresSerializer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.github.xuzw.migration_builder.serializers.H2Serializer;
+import com.github.xuzw.migration_builder.serializers.MySqlSerializer;
+import com.github.xuzw.migration_builder.serializers.PostgresSerializer;
 
 public class Migration {
 

@@ -1,9 +1,11 @@
-package com.beekeeperdata.migrationbuilder.serializers;
+package com.github.xuzw.migration_builder.serializers;
 
-import com.beekeeperdata.migrationbuilder.C;
-import com.beekeeperdata.migrationbuilder.Migration;
 import junit.framework.TestCase;
 import org.junit.Assert;
+
+import com.github.xuzw.migration_builder.C;
+import com.github.xuzw.migration_builder.Migration;
+import com.github.xuzw.migration_builder.serializers.MySqlSerializer;
 
 /**
  * Created by rathboma on 11/30/16.

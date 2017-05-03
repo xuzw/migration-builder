@@ -1,7 +1,10 @@
-package com.beekeeperdata.migrationbuilder;
+package com.github.xuzw.migration_builder;
 
 import junit.framework.TestCase;
 import org.junit.Assert;
+
+import com.github.xuzw.migration_builder.Migration;
+import com.github.xuzw.migration_builder.MigrationType;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

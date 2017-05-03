@@ -1,7 +1,8 @@
-package com.beekeeperdata.migrationbuilder.serializers;
+package com.github.xuzw.migration_builder.serializers;
 
-import com.beekeeperdata.migrationbuilder.*;
 import org.apache.commons.lang3.StringUtils;
+
+import com.github.xuzw.migration_builder.*;
 
 import java.util.ArrayList;
 import java.util.List;
