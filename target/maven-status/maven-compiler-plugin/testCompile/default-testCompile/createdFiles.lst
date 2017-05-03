@@ -1,5 +1,0 @@
-com/beekeeperdata/migrationbuilder/MigrationTest$TestMigration.class
-com/beekeeperdata/migrationbuilder/MigrationTest.class
-com/beekeeperdata/migrationbuilder/serializers/MySqlSerializerTest.class
-com/beekeeperdata/migrationbuilder/serializers/PostgresSerializerTest.class
-com/beekeeperdata/migrationbuilder/serializers/H2SerializerTest.class
