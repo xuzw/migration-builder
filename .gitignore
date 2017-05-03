@@ -1,7 +1,5 @@
-
-.idea/task.xml
-.idea/workspace.xml
-.idea/*.iws
-.idea/*/iml
-target/**
-*.iml
+/target/
+.project
+.classpath
+/.settings/
+/bin/
