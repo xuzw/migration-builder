@@ -43,7 +43,7 @@ public class Table {
         return this;
     }
 
-    public Table addUniqueColumn(String name) {
+    public Table addUniqueIndex(String name) {
         this.uniqueKeys.add(name);
         return this;
     }
