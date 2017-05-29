@@ -1,11 +1,18 @@
 package com.github.xuzw.migration_builder.serializers;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.github.xuzw.migration_builder.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.github.xuzw.migration_builder.C;
+import com.github.xuzw.migration_builder.Column;
+import com.github.xuzw.migration_builder.FK;
+import com.github.xuzw.migration_builder.ForeignKey;
+import com.github.xuzw.migration_builder.Index;
+import com.github.xuzw.migration_builder.Migration;
+import com.github.xuzw.migration_builder.Serializer;
+import com.github.xuzw.migration_builder.Table;
 
 /**
  * Created by rathboma on 10/19/16.
@@ -17,16 +24,13 @@ public abstract class SQLSerializer extends Serializer {
         List<String> results = new ArrayList<String>();
         for (Column column : t.getCreatedColumns()) {
             serializedColumns.add(this.column(column));
-
         }
         results.addAll(serializedColumns);
-
-        if(t.getPrimaryKey() != null) {
+        if (t.getPrimaryKey() != null) {
             String primaryKey = String.format("PRIMARY KEY(%s)", t.getPrimaryKey());
             results.add(primaryKey);
         }
-
-        for(ForeignKey fKey: t.getForeignKeys()) {
+        for (ForeignKey fKey : t.getForeignKeys()) {
             results.add(foreignKey(fKey));
         }
         String resultString = StringUtils.join(results, ",");
@@ -45,14 +49,12 @@ public abstract class SQLSerializer extends Serializer {
         List<String> results = new ArrayList<String>();
         for (FK option : options) {
             switch (option) {
-                case CASCADEDELETE:
-                    results.add("ON CASCADE DELETE");
+            case CASCADEDELETE:
+                results.add("ON CASCADE DELETE");
             }
         }
         return StringUtils.join(results, " ");
     }
-
-
 
     @Override
     public String createIndex(Index i) {
@@ -68,44 +70,46 @@ public abstract class SQLSerializer extends Serializer {
         return String.format("DROP TABLE %s;", table);
     }
 
-
     @Override
     protected String typeToString(C columnType) {
         switch (columnType) {
-            case STRING:
-                return "VARCHAR(255)";
-            case DATETIME:
-                return "DATETIME";
-            case AUTOINC:
-                return "BIGINT NOT NULL AUTO_INCREMENT";
-            case INT:
-            case INTEGER:
-                return "INTEGER";
-            case DOUBLE:
-                return "DOUBLE";
-            case FLOAT:
-                return "FLOAT";
-            case BIGINT:
-                return "BIGINT";
-            case TEXT:
-                return "TEXT";
-            case BOOLEAN:
-                return "BOOLEAN";
-            default:
-                throw new RuntimeException("Not implemented");
+        case STRING:
+            return "VARCHAR(255)";
+        case DATETIME:
+            return "DATETIME";
+        case AUTOINC:
+            return "BIGINT NOT NULL AUTO_INCREMENT";
+        case INT:
+        case INTEGER:
+            return "INTEGER";
+        case DOUBLE:
+            return "DOUBLE";
+        case FLOAT:
+            return "FLOAT";
+        case BIGINT:
+            return "BIGINT";
+        case TEXT:
+            return "TEXT";
+        case BOOLEAN:
+            return "BOOLEAN";
+        default:
+            throw new RuntimeException("Not implemented");
         }
     }
-
 
     @Override
     protected String column(Column c) {
         String result = String.format("%s %s", c.getName(), this.typeToString(c.getColumnType()));
-        if(c.getNotNull() && c.getColumnType() != C.AUTOINC) {
-            // dont want to add this to AUTOINC columns, as it comes as standard.
+        if (c.getNotNull() && c.getColumnType() != C.AUTOINC) {
+            // dont want to add this to AUTOINC columns, as it comes as
+            // standard.
             result += " NOT NULL";
         }
-        if(c.hasDefaultValue()) {
-            result += (" DEFAULT " + defaultValue(c));
+        if (c.hasDefaultValue()) {
+            result += String.format(" DEFAULT %s", defaultValue(c));
+        }
+        if (StringUtils.isNoneBlank(c.getComment())) {
+            result += String.format(" COMMENT '%s'", c.getComment());
         }
         return result;
     }
@@ -114,15 +118,15 @@ public abstract class SQLSerializer extends Serializer {
     protected String defaultValue(Column c) {
         C cType = c.getColumnType();
         String value = c.getDefaultValue();
-        switch(cType) {
-            case STRING:
-                return String.format("'%s'", value);
-            case DATETIME:
-                if(c.hasDefaultCurrentTimestamp()) {
-                    return "CURRENT_TIMESTAMP";
-                } // else do the default
-            default:
-                return value;
+        switch (cType) {
+        case STRING:
+            return String.format("'%s'", value);
+        case DATETIME:
+            if (c.hasDefaultCurrentTimestamp()) {
+                return "CURRENT_TIMESTAMP";
+            } // else do the default
+        default:
+            return value;
         }
     }
 
@@ -145,13 +149,13 @@ public abstract class SQLSerializer extends Serializer {
     @Override
     public String serialize(Migration migration) {
         String result = "";
-        for (Table t: migration.getCreatedTables()) {
+        for (Table t : migration.getCreatedTables()) {
             result += this.createTable(t);
         }
 
-        for(String t: migration.getAddedColumns().keySet()) {
+        for (String t : migration.getAddedColumns().keySet()) {
             List<Column> columns = migration.getAddedColumns().get(t);
-            for(Column c: columns){
+            for (Column c : columns) {
                 result += this.addColumn(t, c);
             }
         }
@@ -164,11 +168,11 @@ public abstract class SQLSerializer extends Serializer {
             result += this.dropFK(foreignKey);
         }
 
-        for(String t: migration.getDroppedTables()) {
+        for (String t : migration.getDroppedTables()) {
             result += this.droppedTable(t);
         }
 
-        for(Index i: migration.getCreatedIndexes()) {
+        for (Index i : migration.getCreatedIndexes()) {
             result += this.createIndex(i);
         }
 

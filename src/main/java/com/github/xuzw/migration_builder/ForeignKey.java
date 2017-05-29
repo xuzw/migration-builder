@@ -10,7 +10,6 @@ public class ForeignKey {
     private final FK[] options;
     private final String table;
 
-
     public ForeignKey(String table, String column, String fTable, String fKey, FK... options) {
         this.table = table;
         this.column = column;
