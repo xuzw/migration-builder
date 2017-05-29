@@ -8,6 +8,7 @@ public class Table {
     private String primaryKey = null;
     private String name;
     private List<ForeignKey> foreignKeys = new ArrayList<ForeignKey>();
+    private List<String> uniqueKeys = new ArrayList<String>();
 
     public Table(String name) {
         this.name = name;
@@ -42,6 +43,11 @@ public class Table {
         return this;
     }
 
+    public Table addUniqueColumn(String name) {
+        this.uniqueKeys.add(name);
+        return this;
+    }
+
     public String getName() {
         return name;
     }
@@ -61,5 +67,9 @@ public class Table {
 
     public List<ForeignKey> getForeignKeys() {
         return foreignKeys;
+    }
+
+    public List<String> getUniqueKeys() {
+        return uniqueKeys;
     }
 }

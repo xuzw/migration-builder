@@ -27,8 +27,10 @@ public abstract class SQLSerializer extends Serializer {
         }
         results.addAll(serializedColumns);
         if (t.getPrimaryKey() != null) {
-            String primaryKey = String.format("PRIMARY KEY(%s)", t.getPrimaryKey());
-            results.add(primaryKey);
+            results.add(String.format("PRIMARY KEY(%s)", t.getPrimaryKey()));
+        }
+        for (String uniqueKeys : t.getUniqueKeys()) {
+            results.add(String.format("UNIQUE (%s)", uniqueKeys));
         }
         for (ForeignKey fKey : t.getForeignKeys()) {
             results.add(foreignKey(fKey));
@@ -61,7 +63,6 @@ public abstract class SQLSerializer extends Serializer {
         String columnsString = StringUtils.join(i.getColumns(), ", ");
         String template = "CREATE INDEX %s ON %s(%s);";
         String result = String.format(template, i.getName(), i.getTable(), columnsString);
-
         return result;
     }
 
@@ -152,30 +153,24 @@ public abstract class SQLSerializer extends Serializer {
         for (Table t : migration.getCreatedTables()) {
             result += this.createTable(t);
         }
-
         for (String t : migration.getAddedColumns().keySet()) {
             List<Column> columns = migration.getAddedColumns().get(t);
             for (Column c : columns) {
                 result += this.addColumn(t, c);
             }
         }
-
         for (ForeignKey foreignKey : migration.getAddedFKs()) {
             result += this.addFK(foreignKey);
         }
-
         for (ForeignKey foreignKey : migration.getRemovedFKs()) {
             result += this.dropFK(foreignKey);
         }
-
         for (String t : migration.getDroppedTables()) {
             result += this.droppedTable(t);
         }
-
         for (Index i : migration.getCreatedIndexes()) {
             result += this.createIndex(i);
         }
-
         return result;
     }
 }
