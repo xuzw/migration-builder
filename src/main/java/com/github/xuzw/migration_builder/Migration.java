@@ -17,6 +17,7 @@ public class Migration {
     private final Map<String, List<Column>> addedColumns = new HashMap<String, List<Column>>();
     private List<ForeignKey> addedFKs = new ArrayList<ForeignKey>();
     private List<String> droppedTables = new ArrayList<String>();
+    private List<AutoIncrement> autoIncrements = new ArrayList<AutoIncrement>();
 
     public List<ForeignKey> getAddedFKs() {
         return addedFKs;
@@ -57,6 +58,11 @@ public class Migration {
 
     public Migration dropTable(String name) {
         this.droppedTables.add(name);
+        return this;
+    }
+
+    public Migration autoIncrement(String table, long begin) {
+        this.autoIncrements.add(new AutoIncrement(table, begin));
         return this;
     }
 
@@ -113,5 +119,9 @@ public class Migration {
 
     public List<String> getDroppedTables() {
         return droppedTables;
+    }
+
+    public List<AutoIncrement> getAutoIncrements() {
+        return autoIncrements;
     }
 }

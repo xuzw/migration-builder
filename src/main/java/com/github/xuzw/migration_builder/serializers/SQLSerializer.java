@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.github.xuzw.migration_builder.AutoIncrement;
 import com.github.xuzw.migration_builder.C;
 import com.github.xuzw.migration_builder.Column;
 import com.github.xuzw.migration_builder.FK;
@@ -69,6 +70,11 @@ public abstract class SQLSerializer extends Serializer {
     @Override
     public String droppedTable(String table) {
         return String.format("DROP TABLE %s;", table);
+    }
+
+    @Override
+    public String autoIncrement(AutoIncrement autoIncrement) {
+        return String.format("ALTER TABLE %s AUTO_INCREMENT=%s;", autoIncrement.getTable(), autoIncrement.getBegin());
     }
 
     @Override
@@ -167,6 +173,9 @@ public abstract class SQLSerializer extends Serializer {
         }
         for (String t : migration.getDroppedTables()) {
             result += this.droppedTable(t);
+        }
+        for (AutoIncrement a : migration.getAutoIncrements()) {
+            result += this.autoIncrement(a);
         }
         for (Index i : migration.getCreatedIndexes()) {
             result += this.createIndex(i);

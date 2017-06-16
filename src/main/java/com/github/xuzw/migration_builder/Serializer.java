@@ -27,4 +27,6 @@ public abstract class Serializer {
     public abstract String serialize(Migration migration);
 
     public abstract String droppedTable(String t);
+
+    public abstract String autoIncrement(AutoIncrement autoIncrement);
 }
